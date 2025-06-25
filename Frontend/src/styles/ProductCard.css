@@ -105,6 +105,10 @@
   cursor: pointer;
 }
 
+.clickable-area {
+  cursor: pointer;
+}
+
 .add-to-cart {
   width: 100%;
   background-color: #e91e63;
