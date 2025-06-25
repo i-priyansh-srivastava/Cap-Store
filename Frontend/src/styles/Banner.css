@@ -1,0 +1,23 @@
+.banner{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.banner-img{
+    width: 100vw;
+}
+
+.banner-content{
+    padding-top: 5vh;
+    width: 100vw;
+    height: 50vh;
+    background-color: rgb(131, 68, 68);
+}
+.offer-banner{
+    background-color: black;
+    color: white;
+    font-family: cursive;
+    width: 100vw;
+}

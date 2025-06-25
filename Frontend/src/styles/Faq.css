@@ -1,0 +1,139 @@
+body,h3,p,button {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.FaqWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  max-width: 97%;
+  margin: auto;
+  background-image: url("../images/FAQQues.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.ImageContainer {
+  flex: 1;
+  text-align: center;
+}
+
+.FaqImage {
+  max-width: 100%;
+  height: auto;
+
+}
+
+.FaqContent {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #fdfdfd;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+
+.FaqHeading {
+  text-align: center;
+  text-decoration: underline solid;
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.FaqContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.FaqItem {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+
+.FaqQuestion {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #555;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.FaqQuestion .arrow {
+  transition: transform 0.2s ease;
+}
+
+.FaqAnswer {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+.FaqItem .FaqAnswer {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .FaqWrapper {
+    flex-direction: row;
+    gap: 40px;
+  }
+
+  .FaqHeading {
+    text-align: left;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  
+  .FaqHeading {
+    font-size: 1.5rem;
+  }
+
+  .FaqQuestion {
+    font-size: 1rem;
+  }
+
+  .FaqAnswer {
+    font-size: 0.9rem;
+  }
+
+  .FaqWrapper {
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+  }
+}

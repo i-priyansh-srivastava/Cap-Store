@@ -1,0 +1,129 @@
+.checkout-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 5px;
+}
+
+.step-info {
+  color: #888;
+  margin-bottom: 30px;
+}
+
+.checkout-content {
+  display: flex;
+  gap: 30px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.payment-form {
+  flex: 1;
+  text-align: left;
+  background-color: #f9f9f9;
+  padding: 25px;
+  border-radius: 10px;
+}
+
+.payment-form h3 {
+  margin-bottom: 10px;
+}
+
+.stripe-badge {
+  font-size: 0.85rem;
+  margin-bottom: 15px;
+  color: #555;
+}
+
+.payment-form input {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.card-details {
+  display: flex;
+  gap: 10px;
+}
+
+.card-details input {
+  flex: 1;
+}
+
+.premium-summary {
+  width: 300px;
+  background-color: #f1f6fb;
+  padding: 25px;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.premium-summary h4 {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.premium-summary h2 {
+  margin: 5px 0 20px;
+  font-size: 1.5rem;
+}
+
+.benefits-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.benefits-list li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.price-breakdown p {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.total {
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin: 15px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.terms {
+  font-size: 0.85rem;
+  margin-bottom: 15px;
+  gap: 5px;
+  align-items: center;
+}
+
+.terms a {
+  color: #e91e63;
+  text-decoration: none;
+}
+
+.subscribe-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #e91e63;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.subscribe-btn:hover {
+  background-color: #d81b60;
+}

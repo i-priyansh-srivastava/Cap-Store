@@ -1,0 +1,102 @@
+.testimonials {
+  text-align: center;
+  padding: 60px 20px;
+  background: #ffffff;
+}
+
+.heading {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.subheading {
+  color: #555;
+  margin-bottom: 40px;
+}
+
+.testimonial-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.testimonial-card {
+  background-color: #fdeef2;
+  padding: 25px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 320px;
+  text-align: left;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  position: relative;
+}
+
+.testimonial-card .quote {
+  font-size: 28px;
+  color: #e91e63;
+  margin-bottom: 10px;
+}
+
+.testimonial-card .text {
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-info img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+/* How It Works Section */
+.how-it-works {
+  background: #fbeff1;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.how-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.how-card {
+  background: #ffffff;
+  padding: 25px 20px;
+  border-radius: 10px;
+  width: 280px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+
+.how-card:hover {
+  transform: translateY(-5px);
+}
+
+.icon {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.how-card h3 {
+  margin: 10px 0 8px;
+  font-size: 1.1rem;
+}
+
+.how-card p {
+  font-size: 0.95rem;
+  color: #555;
+}

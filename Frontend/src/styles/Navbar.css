@@ -1,0 +1,190 @@
+.Navi {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0 1rem 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    border-radius: 2px;
+}
+
+.together {
+    display: flex;
+}
+
+.logo {
+    height: 8vh;
+}
+
+.Symbol {
+    font-size: 4vh;
+    padding: 0.5rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.gen {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.genBtn {
+    background: linear-gradient(135deg, rgba(68, 44, 16, 0.8), rgba(23, 13, 7, 0.8));
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.7rem 1.5rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.genBtn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+}
+
+.genBtn:active {
+    transform: scale(0.95);
+}
+
+.ToProfile{
+    padding-right: 2vw;
+}
+
+.dropdown {
+    position: absolute;
+    top: 80px; 
+    right: 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+}
+
+.dropdown button {
+    border-radius: 50px;
+    background: none;
+    text-align: left;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 150px;
+}
+
+.dropdown button:hover {
+    background-color: #f5f5f5;
+}
+
+
+@keyframes ripple {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 0.5;
+    }
+
+    100% {
+        width: 250px;
+        height: 250px;
+        opacity: 0;
+    }
+}
+
+.loginSign {
+    display: flex;
+    gap: 1rem;
+}
+
+.loginSignin {
+    background: linear-gradient(135deg, rgba(4, 95, 192, 255), rgba(34, 236, 255, 255));
+    color: #fff;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+button a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+.button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.button:hover span {
+    padding-right: 25px;
+}
+
+.button:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+@media (max-width: 768px) {
+    .Navi {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+    }
+
+    .gen {
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .genBtn {
+        display: none;
+    }
+
+    .loginSign {
+        margin-top: 0.5rem;
+        gap: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .Navi div:first-child {
+        font-size: 1.5rem;
+    }
+
+    .genBtn {
+        display: none;
+    }
+}
