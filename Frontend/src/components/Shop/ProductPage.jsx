@@ -5,10 +5,12 @@ import "../../styles/ProductPage.css";
 
 const ProductPage = (props) => {
   return (
+
     <div>
+      <div className='emptySpace'></div>
+
       <Nav setLogin={props.setLogin}></Nav>
       <section className="productPage">
-        <h1 className="shopHead">Products</h1>
         <ProductCard></ProductCard>
       </section>
       <Footer></Footer>

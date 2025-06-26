@@ -1,4 +1,8 @@
 import '../../styles/ProductDetail.css';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { FaHeart } from 'react-icons/fa';
+import AuthService from '../../services/authService';
 
 const relatedProducts = [
   {
@@ -23,45 +27,121 @@ const relatedProducts = [
   },
 ];
 
-const ProductDetail = () => {
+
+const ProductDetail = ({ product, onBack }) => {
+  const [quantity, setQuantity] = useState(1);
+
+  if (!product) {
+    return (
+      <div className="product-detail">
+        <p>No product selected.</p>
+        <button onClick={onBack}>Back</button>
+      </div>
+    );
+  }
+  
+  const handleQuantityChange = (e) => {
+    const value = Math.max(1, parseInt(e.target.value) || 1);
+    setQuantity(value);
+  };
+  
+  const incrementQuantity = () => {
+    setQuantity((prev) => prev + 1);
+  };
+  
+  const decrementQuantity = () => {
+    setQuantity((prev) => Math.max(1, prev - 1));
+  };
+  
+  const handleAddToCart = async (product) => {
+    try {
+      const user = AuthService.getCurrentUser();
+      if (!user || !user.user || !user.user.id) {
+        alert('Please login to add to cart!');
+        return;
+      }
+      await axios.post(`http://localhost:5000/api/v1/cart/${user.user.id}`, {
+        productId: product._id,
+        quantity: quantity,
+      });
+      alert('Product added to cart!');
+    } catch (err) {
+      console.error('Add to cart error:', err);
+      alert('Failed to add to cart');
+    }
+  };
+  
+  const handleAddToWishlist = async (product) => {
+    try {
+      const user = AuthService.getCurrentUser();
+      if (!user || !user.user || !user.user.id) {
+        alert('Please login to add to wishlist!');
+        return;
+      }
+      await axios.post(`http://localhost:5000/api/v1/wishlist/${user.user.id}`, {
+        productId: product._id
+      });
+      alert('Product added to wishlist!');
+    } catch (err) {
+      console.error('Add to wishlist error:', err);
+      alert('Failed to add to wishlist');
+    }
+  };
+  
   return (
     <div className="product-detail">
+      <button className="back-btn" onClick={onBack} style={{ marginBottom: '1rem' }}>Back</button>
       <div className="product-top">
         <div className="left">
           <img
             className="main-img"
-            src="https://via.placeholder.com/300x400?text=Product+Main"
-            alt="Main Product"
+            src={product.imageUrl || 'https://via.placeholder.com/300x400?text=Product+Main'}
+            alt={product.productName}
           />
           <div className="thumbnails">
-            {['blue', 'purple', 'black', 'green'].map((color, idx) => (
-              <img
-                key={idx}
-                src={`https://via.placeholder.com/70x100/${color}?text=${color}`}
-                alt={color}
-              />
-            ))}
+            {(product.relatedPhotos && product.relatedPhotos.length > 0
+              ? product.relatedPhotos
+              : ['https://via.placeholder.com/70x100/blue?text=blue', 'https://via.placeholder.com/70x100/purple?text=purple'])
+              .map((url, idx) => (
+                <img key={idx} src={url} alt={`thumb-${idx}`} />
+              ))}
           </div>
         </div>
 
         <div className="right">
-          <p className="breadcrumb">Home / Men / Essential Polos</p>
-          <h2>Essential Polos</h2>
-          <p className="price">$80.00 – $90.00 <span className="free-ship">+ Free Shipping</span></p>
-          <p className="short-desc">
-            Elevate your everyday style with our Essential Polos, the perfect blend of comfort and sophistication.
-          </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <p className="breadcrumb">{product.category || 'Category'} / {product.productName}</p>
+            <FaHeart
+              className="wishlist-heart"
+              style={{ color: 'crimson', cursor: 'pointer' }}
+              title="Add to Wishlist"
+              onClick={() => handleAddToWishlist(product)}
+            />
+          </div>
+          <h2>{product.productName}</h2>
+          <p className="price">${product.price} <span className="free-ship">+ Free Shipping</span></p>
+          <p className="short-desc">{product.description}</p>
 
           <div className="size-selector">
             <span>Size:</span>
-            {['S', 'M', 'L', 'XL'].map((size) => (
+            {(product.availableSize || ['S', 'M', 'L', 'XL']).map((size) => (
               <button key={size}>{size}</button>
             ))}
           </div>
 
           <div className="quantity-add">
-            <input type="number" min="1" defaultValue="1" />
-            <button className="add-cart">Add to Cart</button>
+            <div className="quantity-controls">
+              <button type="button" className="arrow-btn" onClick={decrementQuantity}>−</button>
+              <input
+                type="number"
+                min="1"
+                value={quantity}
+                onChange={handleQuantityChange}
+              />
+              <button type="button" className="arrow-btn" onClick={incrementQuantity}>+</button>
+            </div>
+
+            <button className="add-cart" onClick={() => handleAddToCart(product)}>Add to Cart</button>
           </div>
 
           <ul className="features">
@@ -71,15 +151,6 @@ const ProductDetail = () => {
             <li>🔐 Secure Payments</li>
           </ul>
         </div>
-      </div>
-
-      <div className="product-tabs">
-        <h3>Description</h3>
-        <p>
-          Crafted from premium, breathable fabric, these polos offer a tailored fit that’s ideal for both casual
-          outings and smart-casual settings. Designed with classic collars and subtle detailing, they bring timeless
-          appeal to your wardrobe.
-        </p>
       </div>
 
       <div className="related-section">

@@ -1,0 +1,59 @@
+.my-account-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 2rem 2.5rem;
+}
+
+.my-account-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.account-form label {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.account-form input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #f8f8f8;
+}
+
+.account-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.account-actions button {
+  background: #2854f0;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.account-actions button:hover {
+  background: #1a3fa6;
+}
+
+.message {
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #1abc6c;
+  font-weight: 500;
+} 

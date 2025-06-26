@@ -66,9 +66,9 @@ const Nav = (props) => {
                                 <div className="user-info">
                                     <strong>Welcome, {currentUser?.user?.name || 'User'}!</strong>
                                 </div>
-                                <button>My Account</button>
+                                <button> <Link to="/account"><strong>My Account</strong></Link></button>
                                 <button>Order History</button>
-                                <button>Wishlist</button>
+                                <button><Link to="/wishlist"><strong>Wishlist</strong></Link></button>
                                 <button>Notification</button>
                                 <button onClick={LogoutHandler}>Logout</button>
                             </>

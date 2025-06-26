@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const bcrypt = require('bcryptjs');
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET =process.env.JWT_SECRET;
 
 exports.loginUser = async (req, res) => {
   try {

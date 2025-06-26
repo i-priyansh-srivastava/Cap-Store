@@ -1,3 +1,11 @@
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+}
+
 .product-card {
   width: 280px;
   border: 1px solid #eaeaea;
@@ -15,10 +23,14 @@
 
 .image-container {
   position: relative;
+  display: flex;
+  justify-content: center;
+  border: 2px solid bla
 }
 
 .image-container img {
-  width: 100%;
+  width: 15vw;
+  height: 20vh;
   display: block;
 }
 

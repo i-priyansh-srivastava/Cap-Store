@@ -1,9 +1,11 @@
-
-.productPage{
-    padding-top: 10vh;
-
+.emptySpace{
+  height: 10vh;
+  background-color: rgb(131, 68, 68)
 }
 
+.productPage{
+    padding: 0 5vw;
+}
 
 .shopHead{
     font-size: 2rem;
