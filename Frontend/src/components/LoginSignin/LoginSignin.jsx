@@ -5,17 +5,13 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 
 const LoginSign = (props) => {
-    const roleMap = {
-        Patient: "/patient_dashboard",
-        Doctor: "/doctor_dashboard",
-        Admin: "/admin_dashboard"
-    };
 
-    const [role, setRole] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [username, setUsername] = useState('');
-    const [roleDropdown, setroleDropdown] = useState('Patient');
+    const [name, setName] = useState('');
+    const [userName, setUserName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
 
     useEffect(() => {
         setEmail('');
@@ -26,7 +22,10 @@ const LoginSign = (props) => {
 
     const handleEmailChange = (e) => setEmail(e.target.value);
     const handlePasswordChange = (e) => setPassword(e.target.value);
-    const handleUsernameChange = (e) => setUsername(e.target.value);
+    const handleNameChange = (e) => setName(e.target.value);
+    const handleUserNameChange = (e) => setUserName(e.target.value);
+    const handlePhoneChange = (e) => setPhone(e.target.value);
+    const handleAddressChange = (e) => setAddress(e.target.value);
 
     const toggleForm = () => {
         props.setLogin((prevState) => !prevState);
@@ -35,7 +34,7 @@ const LoginSign = (props) => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/v1/login', { email, password });
+            const response = await axios.post('http://localhost:5000/api/v1/auth/login', { email, password });
             console.log(response.data.role);
             if (response) {
                 localStorage.setItem('token', response.data.token);
@@ -53,21 +52,30 @@ const LoginSign = (props) => {
     const handleSignUp = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/v1/signup', { email, username, password, role: roleDropdown });
-            console.log(response);
+            const response = await axios.post('http://localhost:5000/api/v1/auth/signin', {
+                name,
+                email,
+                userName,
+                password,
+                phone,
+                address
+            });
 
             if (response) {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('email', email);
                 setRole(response.data.role);
+                
                 setEmail('');
                 setPassword('');
-                setUsername('');
-                setroleDropdown('Patient');
+                setName('');
+                setUserName('');
+                setPhone('');
+                setAddress('');
                 navigate(roleMap[response.data.role], { state: { email: response.data.email } });
             }
         } catch (error) {
-            toast.error('Signup failed. Please try again.');
+            toast.error(error.response?.data?.message || 'Signup failed. Please try again.');
         }
     };
 
@@ -118,37 +126,31 @@ const LoginSign = (props) => {
                             </button>
                             <form className="form form-signup" onSubmit={handleSignUp}>
                                 <fieldset>
-                                    <legend>Please, enter your username, email, and password for sign up.</legend>
-
+                                    <legend>Please, enter your details for sign up.</legend>
                                     <div className="input-block">
-                                        <label htmlFor="signup-username">Name</label>
-                                        <input id="signup-username" value={username} onChange={handleUsernameChange} type="text" required />
+                                        <label htmlFor="signup-name">Full Name</label>
+                                        <input
+                                            id="signup-name"
+                                            type="text"
+                                            required
+                                            value={name}
+                                            onChange={(e) => setName(e.target.value)}
+                                        />
                                     </div>
-                                    <div className="input-block">
-                                        <label htmlFor="signup-email">E-mail</label>
-                                        <input id="signup-email" value={email} onChange={handleEmailChange} type="email" required />
-                                    </div>
+                                    
                                     <div className="input-block">
                                         <label htmlFor="signup-password">Password</label>
-                                        <input id="signup-password" value={password} onChange={handlePasswordChange} type="password" required />
-                                    </div>
-
-                                    <div className='roleDropdown' >
-                                        <label for="selectRole">Sign in as:</label>
-                                        <select
-                                            name="role"
-                                            id="role"
-                                            value={roleDropdown}
-                                            onChange={(e) => setroleDropdown(e.target.value)}
+                                        <input
+                                            id="signup-password"
+                                            type="password"
                                             required
-                                        >
-                                            <option value="Patient">Patient</option>
-                                            <option value="Doctor">Doctor</option>
-                                        </select>
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
                                     </div>
-
+                                    
+                                    <button type="submit" className="btn-signup">Sign Up</button>
                                 </fieldset>
-                                <button type="submit" className="btn-signup">Sign Up</button>
                             </form>
                         </div>
                     </div>
