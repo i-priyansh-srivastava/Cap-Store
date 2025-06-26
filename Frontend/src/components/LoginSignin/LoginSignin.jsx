@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../../styles/LoginSignin.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import AuthService from '../../services/authService';
 
 const LoginSign = (props) => {
 
@@ -34,48 +34,47 @@ const LoginSign = (props) => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/v1/auth/login', { email, password });
-            console.log(response.data.role);
+            const response = await AuthService.login(email, password);
             if (response) {
-                localStorage.setItem('token', response.data.token);
-                localStorage.setItem('email', email);
-                setRole(response.data.role);
-                navigate(roleMap[response.data.role], { state: { email: response.data.email } });
+                toast.success('Login successful!');
                 setEmail('');
                 setPassword('');
+                navigate("/");
             }
         } catch (error) {
-            toast.error('Login failed. Please try again.');
+            toast.error(error.message || 'Login failed. Please try again.');
         }
     };
 
     const handleSignUp = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/v1/auth/signin', {
+            const userData = {
                 name,
                 email,
-                userName,
                 password,
+                userName,
                 phone,
                 address
-            });
+            };
+
+            const response = await AuthService.signup(userData);
+
+            console.log(response);
+            
 
             if (response) {
-                localStorage.setItem('token', response.data.token);
-                localStorage.setItem('email', email);
-                setRole(response.data.role);
-                
+                toast.success('Signup successful!');
                 setEmail('');
                 setPassword('');
                 setName('');
                 setUserName('');
                 setPhone('');
                 setAddress('');
-                navigate(roleMap[response.data.role], { state: { email: response.data.email } });
+                navigate("/");
             }
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Signup failed. Please try again.');
+            toast.error(error.message || 'Signup failed. Please try again.');
         }
     };
 
@@ -137,7 +136,22 @@ const LoginSign = (props) => {
                                             onChange={(e) => setName(e.target.value)}
                                         />
                                     </div>
-                                    
+
+                                    <div className="input-block">
+                                        <label htmlFor="signup-username">Username</label>
+                                        <input
+                                            id="signup-username"
+                                            type="text"
+                                            required
+                                            value={userName}
+                                            onChange={handleUserNameChange}
+                                        />
+                                    </div>
+                                    <div className="input-block">
+                                        <label htmlFor="signup-email">E-mail</label>
+                                        <input id="signup-email" value={email} onChange={handleEmailChange} type="email" required />
+                                    </div>
+
                                     <div className="input-block">
                                         <label htmlFor="signup-password">Password</label>
                                         <input
@@ -148,7 +162,26 @@ const LoginSign = (props) => {
                                             onChange={(e) => setPassword(e.target.value)}
                                         />
                                     </div>
-                                    
+
+                                    <div className="input-block">
+                                        <label htmlFor="signup-phone">Phone</label>
+                                        <input
+                                            id="signup-phone"
+                                            type="text"
+                                            value={phone}
+                                            onChange={handlePhoneChange}
+                                        />
+                                    </div>
+                                    <div className="input-block">
+                                        <label htmlFor="signup-address">Address</label>
+                                        <input
+                                            id="signup-address"
+                                            type="text"
+                                            value={address}
+                                            onChange={handleAddressChange}
+                                        />
+                                    </div>
+
                                     <button type="submit" className="btn-signup">Sign Up</button>
                                 </fieldset>
                             </form>

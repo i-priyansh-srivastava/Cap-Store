@@ -13,7 +13,7 @@ const Homepage = (props) => {
 
     return (
         <div className="Homepage">
-            <Nav></Nav>
+            <Nav setLogin={props.setLogin}></Nav>
             <Banner></Banner>
             <Categories></Categories>
             <Testimonials></Testimonials>

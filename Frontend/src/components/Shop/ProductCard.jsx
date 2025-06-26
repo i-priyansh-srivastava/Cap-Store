@@ -24,9 +24,6 @@ const ProductCard = () => {
             src="https://media.gettyimages.com/id/1094357932/photo/cheerful-golf-player.jpg?s=612x612&w=0&k=20&c=-suX4xshkYOnhn3WNdxmH64YqXQk0hbeqwjan3Wk_Z4="
             alt="Essential Polos"
           />
-          <div className="icons">
-            <button className="icon-btn">🔍</button>
-          </div>
         </div>
 
         <div className="product-info">

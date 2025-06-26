@@ -1,19 +1,45 @@
 import { Link } from 'react-router-dom';
 import '../../styles/Navbar.css';
-
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useState } from 'react';
-
+import { useState, useEffect } from 'react';
+import AuthService from '../../services/authService';
 
 const Nav = (props) => {
-    const [profileBox, setProfileBox] = useState(false)
+    const [profileBox, setProfileBox] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [currentUser, setCurrentUser] = useState(null);
+
+    useEffect(() => {
+        // Check authentication status when component mounts
+        const checkAuth = () => {
+            const authenticated = AuthService.isAuthenticated();
+            setIsAuthenticated(authenticated);
+            if (authenticated) {
+                setCurrentUser(AuthService.getCurrentUser());
+            }
+        };
+        
+        checkAuth();
+        // Check auth status every time profileBox is toggled
+    }, [profileBox]);
 
     const ViewProfile = () => {
         setProfileBox(!profileBox);
     }
+
     const LoginHandler = () => {
-        props.setLogin(true)
+        props.setLogin(true);
+    }
+
+    const LogoutHandler = () => {
+        AuthService.logout();
+        setIsAuthenticated(false);
+        setCurrentUser(null);
+        setProfileBox(false);
+        toast.success('Logged out successfully!');
+        // Redirect to home page
+        window.location.href = '/';
     }
 
     return (
@@ -33,24 +59,25 @@ const Nav = (props) => {
 
                 {profileBox && (
                     <div className="dropdown">
-                        <button onClick={LoginHandler}><Link to="/login"><strong>LogIn / SignUp</strong></Link></button>
-
-                        {/* {props.isLogin && (
+                        {!isAuthenticated ? (
+                            <button onClick={LoginHandler}><Link to="/login"><strong>LogIn / SignUp</strong></Link></button>
+                        ) : (
                             <>
+                                <div className="user-info">
+                                    <strong>Welcome, {currentUser?.user?.name || 'User'}!</strong>
+                                </div>
                                 <button>My Account</button>
-                                <button >Order History</button>
+                                <button>Order History</button>
                                 <button>Wishlist</button>
                                 <button>Notification</button>
-                                <button onClick={props.Logout}>Logout</button>
+                                <button onClick={LogoutHandler}>Logout</button>
                             </>
-                        )} */}
+                        )}
                     </div>
                 )}
             </div>
         </div>
-
     )
 }
-
 
 export default Nav;

@@ -8,8 +8,6 @@ const dbConnect = () => {
     useUnifiedTopology: true,
   })
     .then(() => {
-      console.log( `${process.env.DATABASE_URL}` );
-      
       console.log(`Db connected Succesfully on port ${process.env.PORT}`);
     })
     .catch((err) => {

@@ -5,4 +5,7 @@ const {loginUser , signInUser} = require('../Controller/Auth');
 
 
 router.post('/auth/login', loginUser);
-router.post('/auth/signup', signInUser);
+router.post('/auth/signin', signInUser);
+
+
+module.exports = router;

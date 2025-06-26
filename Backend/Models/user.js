@@ -1,10 +1,15 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
+  },
+  userName: {
+    type: String,
+    required: false,
+    unique: false
   },
   email: {
     type: String,
@@ -12,20 +17,18 @@ const userSchema = new mongoose.Schema({
     unique: true,
     match: [/^\S+@\S+\.\S+$/, 'Invalid email address']
   },
-  userName: {
-    type: String,
-    required: true,
-  },
   password: {
     type: String,
     required: true
   },
   phone: {
     type: String,
-    match: [/^\d{10}$/, 'Invalid phone number']
+    match: [/^\d{10}$/, 'Invalid phone number'],
+    default: null,
   },
   address: {
-    type: String
+    type: String,
+    default: null,
   }
 }, { timestamps: true });
 
@@ -36,5 +39,5 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);  
 module.exports = User;

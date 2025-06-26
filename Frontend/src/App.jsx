@@ -15,19 +15,19 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path='/' element={<HomePage />}></Route>
-          <Route path='/shop' element={<ProductPage />}></Route>
+          <Route path='/' element={<HomePage isLogin={isLogin} setLogin={setLogin} />}></Route>
+          <Route path='/shop' element={<ProductPage isLogin={isLogin} setLogin={setLogin} />}></Route>
           <Route path="/login" element={<Login isLogin={isLogin} setLogin={setLogin} />} />
           <Route path="/cart" element={
-              // <ProtectedRoute>
+              <ProtectedRoute>
                 <MyCart/>
-              // </ProtectedRoute>
+               </ProtectedRoute>
             }
           />
           <Route path="/premium" element={
-              // <ProtectedRoute>
+              <ProtectedRoute>
                 <GoPremium/>
-              // </ProtectedRoute>
+              </ProtectedRoute>
             }
           />
 
