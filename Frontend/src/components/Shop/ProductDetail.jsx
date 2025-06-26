@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { FaHeart } from 'react-icons/fa';
 import AuthService from '../../services/authService';
+import HeartButton from '../Wishlist/HeartButton';
 
 const relatedProducts = [
   {
@@ -111,11 +112,10 @@ const ProductDetail = ({ product, onBack }) => {
         <div className="right">
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <p className="breadcrumb">{product.category || 'Category'} / {product.productName}</p>
-            <FaHeart
-              className="wishlist-heart"
-              style={{ color: 'crimson', cursor: 'pointer' }}
-              title="Add to Wishlist"
-              onClick={() => handleAddToWishlist(product)}
+            <HeartButton
+              productId={product._id}
+              initialWishlisted={product.isWishlisted}
+              onToggle={() => {}}
             />
           </div>
           <h2>{product.productName}</h2>

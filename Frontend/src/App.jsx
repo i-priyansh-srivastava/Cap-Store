@@ -9,6 +9,7 @@ import GoPremium from './components/Premium/GoPremium';
 import AddProductForm from './components/ADMIN/AddProducts';
 import MyAccount from "./components/MyAccount/MyAccount"
 import MyWishlist from "./components/Wishlist/MyWishlist";
+import OrderHistory from './components/MyAccount/OrderHistory';
 
 function App() {
   const [isLogin, setLogin] = useState(true);
@@ -43,6 +44,13 @@ function App() {
           <Route path="/premium" element={
               <ProtectedRoute>
                 <GoPremium isLogin={isLogin} setLogin={setLogin} />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="/orders" element={
+              <ProtectedRoute>
+                <OrderHistory isLogin={isLogin} setLogin={setLogin} />
               </ProtectedRoute>
             }
           />

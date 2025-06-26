@@ -4,6 +4,7 @@ import AuthService from '../../services/authService';
 import Nav from '../HomePage/Navbar';
 import Footer from '../HomePage/Footer';
 import '../../styles/Wishlist.css';
+import HeartButton from './HeartButton';
 
 const MyWishlist = (props) => {
   const [wishlist, setWishlist] = useState([]);
@@ -29,6 +30,18 @@ const MyWishlist = (props) => {
     fetchWishlist();
   }, []);
 
+  const handleRemove = async (productId) => {
+    try {
+      const user = AuthService.getCurrentUser();
+      if (!user || !user.user || !user.user.id) return;
+      await axios.post(`http://localhost:5000/api/v1/wishlist/remove/${user.user.id}`, { productId });
+      setWishlist((prev) => prev.filter((p) => p._id !== productId));
+    } catch (err) {
+      console.log(err);
+      
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (!wishlist.length) return <div>Your wishlist is empty.</div>;
 
@@ -46,6 +59,8 @@ const MyWishlist = (props) => {
                 <h3>{product.productName}</h3>
                 <p>{product.description}</p>
                 <div className="wishlist-price">${product.price}</div>
+                <HeartButton productId={product._id} initialWishlisted={true} onToggle={() => handleRemove(product._id)} />
+                <button className="remove-wishlist-btn" onClick={() => handleRemove(product._id)}>Remove</button>
               </div>
             </div>
           ))}

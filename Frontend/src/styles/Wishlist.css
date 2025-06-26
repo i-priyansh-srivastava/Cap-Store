@@ -62,4 +62,20 @@
   font-weight: bold;
   color: #2854f0;
   font-size: 1.1rem;
+}
+
+.remove-wishlist-btn {
+  background: #fff;
+  color: #c00;
+  border: 1px solid #c00;
+  border-radius: 4px;
+  padding: 0.3em 0.8em;
+  margin-top: 0.5em;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background 0.2s, color 0.2s;
+}
+.remove-wishlist-btn:hover {
+  background: #c00;
+  color: #fff;
 } 

@@ -6,6 +6,15 @@ import Nav from "../HomePage/Navbar.jsx";
 import AuthService from '../../services/authService';
 import '../../styles/Checkout.css';
 
+const loadRazorpayScript = () => {
+  return new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.onload = resolve;
+    document.body.appendChild(script);
+  });
+};
+
 const Checkout = (props) => {
   const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -38,6 +47,43 @@ const Checkout = (props) => {
   const getItemCount = () => {
     if (!cart) return 0;
     return cart.items.reduce((sum, item) => sum + item.quantity, 0);
+  };
+
+  const handleCheckout = async () => {
+    await loadRazorpayScript();
+    const amount = parseFloat(getTotal()) * 100; // Razorpay expects paise
+    const user = AuthService.getCurrentUser();
+    if (!user || !user.user || !user.user.id) {
+      alert('Please login to checkout!');
+      return;
+    }
+    const options = {
+      key: process.env.RAZORPAY_KEY_ID, 
+      amount: amount,
+      currency: 'INR',
+      name: 'Cap-Store',
+      description: 'Order Payment',
+      handler: async function (response) {
+        try {
+          for (const item of cart.items) {
+            await axios.post('http://localhost:5000/api/v1/product/reduce-stock', { productId: item.product._id });
+          }
+          alert('Payment successful! Stock updated. Payment ID: ' + response.razorpay_payment_id);
+          window.location.reload();
+        } catch (err) {
+          alert('Payment succeeded but failed to update stock.');
+        }
+      },
+      prefill: {
+        name: user.user.name,
+        email: user.user.email,
+      },
+      theme: {
+        color: '#2854f0',
+      },
+    };
+    const rzp = new window.Razorpay(options);
+    rzp.open();
   };
 
   if (loading) return <div>Loading...</div>;
@@ -80,7 +126,7 @@ const Checkout = (props) => {
             <span>Total</span>
             <span>${getTotal()}</span>
           </div>
-          <button className="checkout-btn">Proceed to Checkout</button>
+          <button className="checkout-btn" onClick={handleCheckout}>Proceed to Checkout</button>
           <div className="continue-shopping">Continue Shopping</div>
         </div>
       </div>
