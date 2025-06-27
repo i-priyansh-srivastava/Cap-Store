@@ -73,7 +73,7 @@
     right: 0;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    border-radius: 50px;
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
     z-index: 100;
@@ -204,4 +204,46 @@ button a {
     .genBtn {
         display: none;
     }
+}
+
+.premium-btn {
+  background: linear-gradient(45deg, #ff6b6b, #feca57);
+  color: white;
+  font-weight: bold;
+  animation: premium-glow 2s ease-in-out infinite alternate;
+}
+
+.premium-btn:hover {
+  background: linear-gradient(45deg, #ff5252, #ffa726);
+  transform: scale(1.05);
+}
+
+@keyframes premium-glow {
+  from {
+    box-shadow: 0 0 5px rgba(255, 107, 107, 0.5);
+  }
+  to {
+    box-shadow: 0 0 20px rgba(255, 107, 107, 0.8);
+  }
+}
+
+.premium-badge {
+  background: linear-gradient(45deg, #ff6b6b, #feca57);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-top: 5px;
+  text-align: center;
+  animation: badge-pulse 2s ease-in-out infinite;
+}
+
+@keyframes badge-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
 }

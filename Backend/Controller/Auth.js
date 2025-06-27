@@ -28,7 +28,16 @@ exports.loginUser = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
-    console.log("hello")
+
+    // Check if premium has expired
+    let isPremium = user.isPremium;
+    if (user.isPremium && user.premiumExpiryDate && new Date() > user.premiumExpiryDate) {
+      user.isPremium = false;
+      user.premiumExpiryDate = null;
+      await user.save();
+      isPremium = false;
+      console.log('Premium expired for user:', user.email);
+    }
     
     const token = jwt.sign(
       { id: user._id, email: user.email},
@@ -36,7 +45,7 @@ exports.loginUser = async (req, res) => {
       { expiresIn: '7d' }
     );
 
-    console.log('Login successful for user:', user.email);
+    console.log('Login successful for user:', user.email, 'Premium:', isPremium);
     res.json({
       token,
       user: {
@@ -45,6 +54,8 @@ exports.loginUser = async (req, res) => {
         email: user.email,
         phone: user.phone,
         address: user.address,
+        isPremium: isPremium,
+        premiumExpiryDate: user.premiumExpiryDate
       }
     });
 
@@ -87,7 +98,9 @@ exports.signInUser = async (req, res) => {
       email,
       password, // Don't hash here - the pre-save middleware will do it
       phone,
-      address
+      address,
+      isPremium: false, // New users are not premium by default
+      premiumExpiryDate: null
     });
 
     console.log('Attempting to save new user...');
@@ -110,6 +123,8 @@ exports.signInUser = async (req, res) => {
         email: newUser.email,
         phone: newUser.phone,
         address: newUser.address,
+        isPremium: false,
+        premiumExpiryDate: null
       }
     });
 

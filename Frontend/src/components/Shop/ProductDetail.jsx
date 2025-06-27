@@ -4,6 +4,7 @@ import axios from 'axios';
 import { FaHeart } from 'react-icons/fa';
 import AuthService from '../../services/authService';
 import HeartButton from '../Wishlist/HeartButton';
+import RelatedProducts from './RelatedProducts';
 
 const relatedProducts = [
   {
@@ -36,25 +37,40 @@ const ProductDetail = ({ product, onBack }) => {
     return (
       <div className="product-detail">
         <p>No product selected.</p>
-        <button onClick={onBack}>Back</button>
+        <button className='backBTN' onClick={onBack}>Back</button>
       </div>
     );
   }
-  
+
+  // Check if product is out of stock
+  const isOutOfStock = () => {
+    return product.stockCount <= 0;
+  };
+
   const handleQuantityChange = (e) => {
     const value = Math.max(1, parseInt(e.target.value) || 1);
-    setQuantity(value);
+    // Don't allow quantity more than available stock
+    const maxQuantity = isOutOfStock() ? 0 : product.stockCount;
+    setQuantity(Math.min(value, maxQuantity));
   };
-  
+
   const incrementQuantity = () => {
-    setQuantity((prev) => prev + 1);
+    if (!isOutOfStock()) {
+      setQuantity((prev) => Math.min(prev + 1, product.stockCount));
+    }
   };
-  
+
   const decrementQuantity = () => {
     setQuantity((prev) => Math.max(1, prev - 1));
   };
-  
+
   const handleAddToCart = async (product) => {
+    // Don't allow adding to cart if out of stock
+    if (isOutOfStock()) {
+      alert('This product is out of stock!');
+      return;
+    }
+
     try {
       const user = AuthService.getCurrentUser();
       if (!user || !user.user || !user.user.id) {
@@ -71,7 +87,7 @@ const ProductDetail = ({ product, onBack }) => {
       alert('Failed to add to cart');
     }
   };
-  
+
   const handleAddToWishlist = async (product) => {
     try {
       const user = AuthService.getCurrentUser();
@@ -88,25 +104,32 @@ const ProductDetail = ({ product, onBack }) => {
       alert('Failed to add to wishlist');
     }
   };
-  
+
   return (
     <div className="product-detail">
       <button className="back-btn" onClick={onBack} style={{ marginBottom: '1rem' }}>Back</button>
       <div className="product-top">
         <div className="left">
-          <img
-            className="main-img"
-            src={product.imageUrl || 'https://via.placeholder.com/300x400?text=Product+Main'}
-            alt={product.productName}
-          />
-          <div className="thumbnails">
+          <div className="image-container" style={{ position: 'relative' }}>
+            <img
+              className="main-img"
+              src={product.imageUrl || 'https://via.placeholder.com/300x400?text=Product+Main'}
+              alt={product.productName}
+            />
+            {isOutOfStock() && (
+              <div className="out-of-stock-banner">
+                Out of Stock
+              </div>
+            )}
+          </div>
+          {/* <div className="thumbnails">
             {(product.relatedPhotos && product.relatedPhotos.length > 0
               ? product.relatedPhotos
               : ['https://via.placeholder.com/70x100/blue?text=blue', 'https://via.placeholder.com/70x100/purple?text=purple'])
               .map((url, idx) => (
                 <img key={idx} src={url} alt={`thumb-${idx}`} />
               ))}
-          </div>
+          </div> */}
         </div>
 
         <div className="right">
@@ -115,12 +138,18 @@ const ProductDetail = ({ product, onBack }) => {
             <HeartButton
               productId={product._id}
               initialWishlisted={product.isWishlisted}
-              onToggle={() => {}}
+              onToggle={() => { }}
             />
           </div>
           <h2>{product.productName}</h2>
-          <p className="price">${product.price} <span className="free-ship">+ Free Shipping</span></p>
+          <p className="price">₹{product.price} <span className="free-ship">+ Free Shipping</span></p>
           <p className="short-desc">{product.description}</p>
+
+          {isOutOfStock() && (
+            <div className="stock-status out-of-stock">
+              <span>❌ Out of Stock</span>
+            </div>
+          )}
 
           <div className="size-selector">
             <span>Size:</span>
@@ -131,17 +160,35 @@ const ProductDetail = ({ product, onBack }) => {
 
           <div className="quantity-add">
             <div className="quantity-controls">
-              <button type="button" className="arrow-btn" onClick={decrementQuantity}>−</button>
+              <button
+                type="button"
+                className="arrow-btn"
+                onClick={decrementQuantity}
+                disabled={isOutOfStock()}
+              >−</button>
               <input
                 type="number"
                 min="1"
+                max={isOutOfStock() ? 0 : product.stockCount}
                 value={quantity}
                 onChange={handleQuantityChange}
+                disabled={isOutOfStock()}
               />
-              <button type="button" className="arrow-btn" onClick={incrementQuantity}>+</button>
+              <button
+                type="button"
+                className="arrow-btn"
+                onClick={incrementQuantity}
+                disabled={isOutOfStock()}
+              >+</button>
             </div>
 
-            <button className="add-cart" onClick={() => handleAddToCart(product)}>Add to Cart</button>
+            <button
+              className="add-cart"
+              onClick={() => handleAddToCart(product)}
+              disabled={isOutOfStock()}
+            >
+              {isOutOfStock() ? 'Out of Stock' : 'Add to Cart'}
+            </button>
           </div>
 
           <ul className="features">
@@ -154,16 +201,7 @@ const ProductDetail = ({ product, onBack }) => {
       </div>
 
       <div className="related-section">
-        <h2>Related Products</h2>
-        <div className="related-list">
-          {relatedProducts.map((item, idx) => (
-            <div key={idx} className="related-card">
-              <img src={item.image} alt={item.name} />
-              <h4>{item.name}</h4>
-              <p>{item.price}</p>
-            </div>
-          ))}
-        </div>
+        <RelatedProducts productId={product._id} category={product.category} gender={product.gender} />
       </div>
     </div>
   );

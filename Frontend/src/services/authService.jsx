@@ -11,6 +11,7 @@ class AuthService {
 
       if (response.data.token) {
         localStorage.setItem('user', JSON.stringify(response.data));
+        console.log('User logged in with premium status:', response.data.user.isPremium);
       }
 
       return response.data;
@@ -25,6 +26,7 @@ class AuthService {
 
       if (response.data.token) {
         localStorage.setItem('user', JSON.stringify(response.data));
+        console.log('User signed up with premium status:', response.data.user.isPremium);
       }
 
       return response.data;
@@ -49,6 +51,32 @@ class AuthService {
 
   static isAuthenticated() {
     return !!this.getToken();
+  }
+
+  static updateUserData(newUserData) {
+    const currentUser = this.getCurrentUser();
+    if (currentUser) {
+      const updatedUser = {
+        ...currentUser,
+        user: {
+          ...currentUser.user,
+          ...newUserData
+        }
+      };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      return updatedUser;
+    }
+    return null;
+  }
+
+  static refreshUserData() {
+    const user = this.getCurrentUser();
+    if (user && user.user && user.user.id) {
+      // You could make an API call here to get fresh user data
+      // For now, we'll just return the current data
+      return user;
+    }
+    return null;
   }
 }
 

@@ -29,6 +29,14 @@ const userSchema = new mongoose.Schema({
   address: {
     type: String,
     default: null,
+  },
+  isPremium: {
+    type: Boolean,
+    default: false
+  },
+  premiumExpiryDate: {
+    type: Date,
+    default: null
   }
 }, { timestamps: true });
 

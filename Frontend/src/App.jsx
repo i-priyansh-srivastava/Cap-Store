@@ -10,12 +10,28 @@ import AddProductForm from './components/ADMIN/AddProducts';
 import MyAccount from "./components/MyAccount/MyAccount"
 import MyWishlist from "./components/Wishlist/MyWishlist";
 import OrderHistory from './components/MyAccount/OrderHistory';
+import EarlyProductForm from './components/ADMIN/EarlyAccess';
+import EarlyAccessPage from './components/EarlyAccess/EarlyAccessPage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [isLogin, setLogin] = useState(true);
 
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        style={{ marginTop: '14vh' }}
+      />
       <Router>
         <Routes>
           <Route path='/' element={<HomePage isLogin={isLogin} setLogin={setLogin} />}></Route>
@@ -56,6 +72,13 @@ function App() {
           />
 
           <Route path='/addProductForm' element={<AddProductForm/>}></Route>
+          <Route path='/earlyProductForm' element={<EarlyProductForm/>}></Route>
+          <Route path='/earlyAccess' element={
+              <ProtectedRoute>
+                <EarlyAccessPage isLogin={isLogin} setLogin={setLogin} />
+              </ProtectedRoute>
+            }
+          />
 
         </Routes>
       </Router>

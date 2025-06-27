@@ -14,6 +14,10 @@ const orderProductSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    isEarlyAccessProduct: {
+        type: Boolean,
+        default: false
+    }
 });
 
 const orderSchema = new mongoose.Schema({
@@ -25,6 +29,10 @@ const orderSchema = new mongoose.Schema({
     totalAmount: {
         type: Number,
         required: true
+    },
+    deliveryCharge: {
+        type: Number,
+        default: 0
     },
     paymentId: {
         type: String

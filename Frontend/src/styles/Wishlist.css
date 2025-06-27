@@ -9,6 +9,7 @@
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
   padding: 2rem 2.5rem;
+  min-height: 60vh;
 }
 
 .wishlist-container h2 {

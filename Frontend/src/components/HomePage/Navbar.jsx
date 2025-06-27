@@ -10,19 +10,43 @@ const Nav = (props) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
 
+    const checkAuth = () => {
+        const authenticated = AuthService.isAuthenticated();
+        setIsAuthenticated(authenticated);
+        if (authenticated) {
+            const user = AuthService.getCurrentUser();
+            setCurrentUser(user);
+            console.log('Navbar - User premium status:', user?.user?.isPremium);
+            console.log('Navbar - Full user data:', user);
+        } else {
+            setCurrentUser(null);
+            console.log('Navbar - No authenticated user');
+        }
+    };
+
     useEffect(() => {
         // Check authentication status when component mounts
-        const checkAuth = () => {
-            const authenticated = AuthService.isAuthenticated();
-            setIsAuthenticated(authenticated);
-            if (authenticated) {
-                setCurrentUser(AuthService.getCurrentUser());
+        checkAuth();
+        
+        // Listen for storage changes (when user logs in/out in another tab)
+        const handleStorageChange = (e) => {
+            if (e.key === 'user') {
+                checkAuth();
             }
         };
+
+        window.addEventListener('storage', handleStorageChange);
         
-        checkAuth();
         // Check auth status every time profileBox is toggled
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
     }, [profileBox]);
+
+    // Force refresh when props change (login/logout)
+    useEffect(() => {
+        checkAuth();
+    }, [props.setLogin]);
 
     const ViewProfile = () => {
         setProfileBox(!profileBox);
@@ -42,6 +66,8 @@ const Nav = (props) => {
         window.location.href = '/';
     }
 
+    const isPremium = currentUser?.user?.isPremium;
+
     return (
         <div className="Navi">
             <div className='together'>
@@ -51,8 +77,15 @@ const Nav = (props) => {
             <div className='gen'>
                 <button className='genBtn'><Link to={"/"} >Home</Link></button>
                 <button className='genBtn'><Link to={"/shop"} >Shop</Link></button>
+                {isPremium && (
+                    <button className='genBtn premium-btn'>
+                        <Link to={"/earlyAccess"} >🚀 Early Access</Link>
+                    </button>
+                )}
                 <button className='genBtn'><Link to={"/cart"} >Cart</Link></button>
-                <button className='genBtn'><Link to={"/premium"} >Go Premium</Link></button>
+                {!isPremium && (
+                    <button className='genBtn'><Link to={"/premium"} >Go Premium</Link></button>
+                )}
             </div>
             <div className='ToProfile' onClick={ViewProfile}>
                 <img width="48" height="48" src="https://img.icons8.com/ink/48/user-male-circle.png" alt="user-male-circle" />
@@ -65,12 +98,16 @@ const Nav = (props) => {
                             <>
                                 <div className="user-info">
                                     <strong>Welcome, {currentUser?.user?.name || 'User'}!</strong>
+                                    {isPremium && (
+                                        <div className="premium-badge">
+                                            ⭐ Premium Member
+                                        </div>
+                                    )}
                                 </div>
                                 <button> <Link to="/account"><strong>My Account</strong></Link></button>
-                                <button>Order History</button>
+                                <button><Link to="/orders"><strong>Order History</strong></Link></button>
                                 <button><Link to="/wishlist"><strong>Wishlist</strong></Link></button>
-                                <button>Notification</button>
-                                <button onClick={LogoutHandler}>Logout</button>
+                                <button onClick={LogoutHandler}><strong>Logout</strong></button>
                             </>
                         )}
                     </div>

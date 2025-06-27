@@ -1,4 +1,6 @@
 import '../../styles/Categories.css';
+import { Link } from 'react-router-dom';
+
 
 const categories = [
   {
@@ -41,7 +43,7 @@ const Categories = () => {
             <img src={category.image} alt={category.title} className="category-img" />
             <div className="category-info">
               <h3>{category.title}</h3>
-              <span>Shop Now</span>
+              <span><Link to="/shop">Shop</Link></span>
             </div>
           </div>
         ))}

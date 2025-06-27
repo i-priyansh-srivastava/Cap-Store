@@ -39,6 +39,15 @@ const LoginSign = (props) => {
                 toast.success('Login successful!');
                 setEmail('');
                 setPassword('');
+                
+                // Check if user is premium and show appropriate message
+                if (response.user.isPremium) {
+                    toast.info('Welcome back, Premium Member! 🚀 Early Access is now available.');
+                }
+                
+                // Trigger navbar refresh by updating the login state
+                props.setLogin((prevState) => !prevState);
+                
                 navigate("/");
             }
         } catch (error) {
@@ -71,6 +80,10 @@ const LoginSign = (props) => {
                 setUserName('');
                 setPhone('');
                 setAddress('');
+                
+                // Trigger navbar refresh by updating the login state
+                props.setLogin((prevState) => !prevState);
+                
                 navigate("/");
             }
         } catch (error) {
@@ -149,7 +162,13 @@ const LoginSign = (props) => {
                                     </div>
                                     <div className="input-block">
                                         <label htmlFor="signup-email">E-mail</label>
-                                        <input id="signup-email" value={email} onChange={handleEmailChange} type="email" required />
+                                        <input
+                                            id="signup-email"
+                                            type="email"
+                                            required
+                                            value={email}
+                                            onChange={handleEmailChange}
+                                        />
                                     </div>
 
                                     <div className="input-block">
@@ -159,7 +178,7 @@ const LoginSign = (props) => {
                                             type="password"
                                             required
                                             value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
+                                            onChange={handlePasswordChange}
                                         />
                                     </div>
 

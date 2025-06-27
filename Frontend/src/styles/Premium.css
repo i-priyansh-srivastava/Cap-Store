@@ -46,12 +46,25 @@
   color: #555;
 }
 
+.payment-note {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 10px;
+  font-style: italic;
+}
+
 .payment-form input {
   width: 100%;
   margin-bottom: 12px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
+}
+
+.payment-form input:disabled {
+  background-color: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
 }
 
 .card-details {
@@ -127,8 +140,14 @@
   font-size: 1rem;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.subscribe-btn:hover {
+.subscribe-btn:hover:not(:disabled) {
   background-color: #d81b60;
+}
+
+.subscribe-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
